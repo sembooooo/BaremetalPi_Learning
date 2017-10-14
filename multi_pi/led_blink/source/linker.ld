@@ -1,0 +1,5 @@
+MEMORY
+{
+	ram(XR)= 
+}
+
