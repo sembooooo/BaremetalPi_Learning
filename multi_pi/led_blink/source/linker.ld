@@ -1,5 +1,0 @@
-MEMORY
-{
-	ram(XR)= 
-}
-
