@@ -13,7 +13,8 @@
 _start: 
 	ldr r4,=CORE0
 	ldr r0,=__stack_pointer_core0 
-	mrc p15,0,r5,c0,c0,5   
+	mrc p15,0,r5,c0,c0,5  
+	ands r5, r5, #0x3
 	cmp r4,r5
 	beq set_stack_func
 	ldr r0,=__stack_pointer_core1
