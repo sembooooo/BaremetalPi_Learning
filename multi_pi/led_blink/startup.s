@@ -49,5 +49,5 @@ _start:
 	ldr r2,=CORE1_MAILBOX0
 	cmp r4,r5
 	beq loop_in_mailbox
-
+	bl main
 
