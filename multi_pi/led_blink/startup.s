@@ -1,12 +1,12 @@
 /*detailed info on how this code works is present in the readme.txt file */
-#define CORE0 0x0
-#define CORE1 0x1
-#define CORE2 0x2
-#define CORE3 0x3 
-#define CORE0_MAILBOX0 0X400000c0	
-#define CORE1_MAILBOX0 0X400000d0
-#define CORE2_MAILBOX0 0X400000e0
-#define CORE3_MAILBOX0 0X400000f0
+.equ CORE0 0x0
+.equ CORE1 0x1
+.equ CORE2 0x2
+.equ CORE3 0x3 
+.equ CORE0_MAILBOX0 0X400000c0	
+.equ CORE1_MAILBOX0 0X400000d0
+.equ CORE2_MAILBOX0 0X400000e0
+.equ CORE3_MAILBOX0 0X400000f0
 .section ".text.startup" 
 .globl _start
 .balign 4
