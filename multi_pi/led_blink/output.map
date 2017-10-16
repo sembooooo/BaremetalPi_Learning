@@ -1,0 +1,125 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+mailbox             0x4               main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+ram              0x0000000000008000 0x0000000008000000 xw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD startup.o
+LOAD main.o
+
+.text           0x0000000000008000      0x104
+                0x0000000000008000                . = ALIGN (0x4)
+                0x0000000000008000                _start = .
+ *(.text.startup)
+ .text.startup  0x0000000000008000       0xa4 startup.o
+ .text.startup  0x00000000000080a4       0x28 main.o
+                0x00000000000080a4                main
+ *(.text*)
+ .text          0x00000000000080cc        0x0 startup.o
+ .text          0x00000000000080cc       0x38 main.o
+                0x00000000000080cc                led_on
+                0x0000000000008100                delay
+                0x0000000000008104                . = ALIGN (0x4)
+
+.glue_7         0x0000000000008104        0x0
+ .glue_7        0x0000000000008104        0x0 linker stubs
+
+.glue_7t        0x0000000000008104        0x0
+ .glue_7t       0x0000000000008104        0x0 linker stubs
+
+.vfp11_veneer   0x0000000000008104        0x0
+ .vfp11_veneer  0x0000000000008104        0x0 linker stubs
+
+.v4_bx          0x0000000000008104        0x0
+ .v4_bx         0x0000000000008104        0x0 linker stubs
+
+.iplt           0x0000000000008104        0x0
+ .iplt          0x0000000000008104        0x0 startup.o
+
+.rel.dyn        0x0000000000008104        0x0
+ .rel.iplt      0x0000000000008104        0x0 startup.o
+
+.bss            0x0000000000008104        0x4
+                0x0000000000008104                . = ALIGN (0x4)
+ *(.bss*)
+ .bss           0x0000000000008104        0x0 startup.o
+ .bss           0x0000000000008104        0x0 main.o
+                0x0000000000008104                . = ALIGN (0x4)
+ COMMON         0x0000000000008104        0x4 main.o
+                0x0000000000008104                mailbox
+
+.rodata         0x0000000000008108        0x0
+                0x0000000000008108                . = ALIGN (0x4)
+ *(.rodata*)
+                0x0000000000008108                . = ALIGN (0x4)
+
+.data           0x0000000000008108        0x4
+                0x0000000000008108                . = ALIGN (0x4)
+ *(.data*)
+ .data          0x0000000000008108        0x0 startup.o
+ .data          0x0000000000008108        0x4 main.o
+                0x0000000000008108                gpio
+                0x000000000000810c                . = ALIGN (0x4)
+
+.igot.plt       0x000000000000810c        0x0
+ .igot.plt      0x000000000000810c        0x0 startup.o
+
+.stack          0x000000000000810c      0x804
+                0x0000000000008110                . = ALIGN (0x8)
+ *fill*         0x000000000000810c        0x4 
+                0x0000000000008110                _stack_start = .
+                0x0000000000008310                . = (. + 0x200)
+ *fill*         0x0000000000008110      0x200 
+                0x0000000000008310                __stack_pointer_core0 = .
+                0x0000000000008510                . = (. + 0x200)
+ *fill*         0x0000000000008310      0x200 
+                0x0000000000008510                __stack_pointer_core1 = .
+                0x0000000000008710                . = (. + 0x200)
+ *fill*         0x0000000000008510      0x200 
+                0x0000000000008710                __stack_pointer_core2 = .
+                0x0000000000008910                . = (. + 0x200)
+ *fill*         0x0000000000008710      0x200 
+                0x0000000000008910                __stack_pointer_core3 = .
+                0x0000000000008910                . = ALIGN (0x8)
+OUTPUT(output.elf elf32-littlearm)
+
+.ARM.attributes
+                0x0000000000000000       0x2b
+ .ARM.attributes
+                0x0000000000000000       0x16 startup.o
+ .ARM.attributes
+                0x0000000000000016       0x2f main.o
+
+.comment        0x0000000000000000       0x7f
+ .comment       0x0000000000000000       0x7f main.o
+                                         0x80 (size before relaxing)
+
+.debug_info     0x0000000000000000       0xcb
+ .debug_info    0x0000000000000000       0xcb main.o
+
+.debug_abbrev   0x0000000000000000       0xb6
+ .debug_abbrev  0x0000000000000000       0xb6 main.o
+
+.debug_aranges  0x0000000000000000       0x28
+ .debug_aranges
+                0x0000000000000000       0x28 main.o
+
+.debug_ranges   0x0000000000000000       0x18
+ .debug_ranges  0x0000000000000000       0x18 main.o
+
+.debug_line     0x0000000000000000       0x57
+ .debug_line    0x0000000000000000       0x57 main.o
+
+.debug_str      0x0000000000000000       0xcd
+ .debug_str     0x0000000000000000       0xcd main.o
+
+.debug_frame    0x0000000000000000       0x40
+ .debug_frame   0x0000000000000000       0x40 main.o
