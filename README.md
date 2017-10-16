@@ -6,7 +6,7 @@ Disclaimer:These programs may or may not be correct and i am in a learning phase
 for now: BaremetalPi_Learning/multi_pi/led_blink/    -----> Status gets compiled not sure whether it works or not.
 
 
-first of all my thanks to Deboer for his extensive support which he gave me. He guided me in every step like a kid and as a result i was able to write this git. 
+first of all my thanks to Deboer for his extensive support which he gave me. He guided me in every step and as a result i was able to write this git. 
 i am still in a learning phase and i will keep on updating this git.
 
 Every information is present in that folder readme and documentation of the code 
