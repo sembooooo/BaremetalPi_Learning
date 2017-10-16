@@ -1,4 +1,4 @@
-/*detailed info on how this code works is present in the readme.txt file */
+/* these .equ lines are just like #define lines for the assembler */
 .equ CORE0, 0x0
 .equ CORE1, 0x1
 .equ CORE2, 0x2
@@ -7,6 +7,7 @@
 .equ CORE1_MAILBOX0, 0X400000d0
 .equ CORE2_MAILBOX0, 0X400000e0
 .equ CORE3_MAILBOX0, 0X400000f0
+/* here starts our .text.startup where our startup code is present */
 .section ".text.startup" 
 .globl _start
 .balign 4
