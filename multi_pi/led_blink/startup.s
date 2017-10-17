@@ -49,8 +49,13 @@ Disclaimer : for those who know GPU mailboxes and for their information these ar
 	    
 After setting up the stack now we need to make our cores execute some code and we need to direct them to that code. 
 As our aim is to make diferrent cores to execute different code what we do is
-we will make our 
-
+how we do this ?
+1. we will make our cores to loop over a single memory address. 
+2. we will make one of our core (here core0) to write the memory location where they need to jump to and start executing the code  
+3. These other cores (here core 1,core 2,core 3) will read the memory location which is named as CORE1_MAILBOX0  in the top of the file 
+   and if its values is zero it will again read and repeat this untill some non zero value is written in those memory locations by some core(here core 0)
+4. here in this example every other core except core 0 loops and core 0 jumps to main function and sets the value at CORE1_MAILBOX0 
+   in the main function. 
 */
 	b mailbox
  	loop_in_mailbox:
