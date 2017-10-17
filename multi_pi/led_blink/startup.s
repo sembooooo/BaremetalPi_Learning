@@ -3,10 +3,10 @@
 .equ CORE1, 0x1
 .equ CORE2, 0x2
 .equ CORE3, 0x3 
-.equ CORE0_MAILBOX0, 0X400000c0	
-.equ CORE1_MAILBOX0, 0X400000d0
-.equ CORE2_MAILBOX0, 0X400000e0
-.equ CORE3_MAILBOX0, 0X400000f0
+.equ CORE0_MAILBOX0, 0X40000080	
+.equ CORE1_MAILBOX0, 0X40000090
+.equ CORE2_MAILBOX0, 0X400000A0
+.equ CORE3_MAILBOX0, 0X400000B0
 /* here starts our .text.startup where our startup code is present */
 .section ".text.startup" 
 .globl _start
