@@ -1,6 +1,6 @@
 ARMGNU = arm-none-eabi
 
-CFLAGS = -Wall  -O2 -nostartfiles -nostdlib -march=armv7-a -mtune=cortex-a7 -g -c
+CFLAGS = -Wall  -O2 -nostartfiles -nostdlib -march=armv8-a -mtune=cortex-a53 -g -c
 
 INC = -I ./
 
