@@ -17,7 +17,8 @@ _start:
  Here what we will do first is we allocate  stack for each and every core. By doing this each and every core will get its own stack
  Here i am giving a 512 bytes of stack. It is just a vague number which i took.
 how do we achieve this? 
-1. check which core it is either core0, core1, core2, core3 by reading the multi processor affinity id register ---> for more information see this folder readme.md
+1. check which core it is either core0, core1, core2, core3 by reading the multi processor affinity id register
+---> for more information see this folder readme.md note 1 
 2. r0 stores the stack starting address 
 3. so for core0 r0 holds __stack_pointer_core0  address and for core 1 r0 holds __stack_pointer_core1 etc.,. 
 4. __stack_pointer_core0, __stack_pointer_core1 etc are defined in the linker script for now just think them as address in the memory 
@@ -46,7 +47,9 @@ how do we achieve this?
 Disclaimer : for those who know GPU mailboxes and for their information these are not those GPU mailboxes
 	     instead they are just memory location . For those who dont know GPU mailboxes ignore this disclaimer
 	    
-After setting up the stack now we need to make our cores execute
+After setting up the stack now we need to make our cores execute some code and we need to direct them to that code. 
+As our aim is to make diferrent cores to execute different code what we do is
+we will make our 
 
 */
 	b mailbox
