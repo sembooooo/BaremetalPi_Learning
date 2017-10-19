@@ -1,5 +1,5 @@
 # BaremetalPi_Learning  
-## these are somethings which felt no where mentioned but because of a person called deboer and raspberry pi baremetal forum  i got to know this. So i thought writing it here would help people like me. 
+#### these are somethings which i felt no they are no where mentioned but because of a person called deboer and raspberry pi baremetal forum  i got to know this. So i thought writing it here would help people like me. 
 every one who is wishing to start multi core programming via baremetal c on raspberry pi ,should know one thing. 
 Before that 
 thanks to baremetal forum guys and especially "Deboer" who helped me in learning this and it took me a while to understand.
