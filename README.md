@@ -1,4 +1,5 @@
-# BaremetalPi_Learning
+# BaremetalPi_Learning  
+## these are somethings which felt no where mentioned but because of a person called deboer and raspberry pi baremetal forum  i got to know this. So i thought writing it here would help people like me. 
 every one who is wishing to start multi core programming via baremetal c on raspberry pi ,should know one thing. 
 Before that 
 thanks to baremetal forum guys and especially "Deboer" who helped me in learning this and it took me a while to understand.
@@ -10,7 +11,8 @@ https://raspberrypi.stackexchange.com/questions/10442/what-is-the-boot-sequence
 Next, in that sequence before kernel starts booting it is written that GPU looks into the config.txt and sets up accordingly
 link for config.txt file and go through boot which in present a little below https://www.raspberrypi.org/documentation/configuration/config-txt/  
 In that config.txt there is something called as "KERNEL_OLD". If this KERNEL_OLD =1 then the GPU will load the kernel.img file at the address 0x0 by making all four cores point at 0x0.
-[  what does all four cores point to 0x0 means?   ] 
+ ### what does all four cores point to 0x0 means?
+
 As the kernel.elf file is loaded from 0x0 instructions are present from 0x0 and all four cores will start to execute the instructions that are present from 0x0
 
 if KERNEL_OLD =0 then 
@@ -18,7 +20,7 @@ if KERNEL_OLD =0 then
 2.will make CORE-0 to point at that address i.e.,. 0x8000
 3.and it makes other cores [CORE-1 ,CORE-2, CORE-3 ] to loop over mailbox-3.
 
-[ why do they loop and until what is the condition to come out of the loop?  ]
+#### why do they loop and until what is the condition to come out of the loop?
 To know this first we need to know what a mailbox is.
 Mailbox is a  means of communication between GPU and our ARM Processor. 
 in raspberry pi every core has 3 Mailboxes. In order to write into them we need to write in one address 
