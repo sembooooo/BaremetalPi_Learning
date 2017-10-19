@@ -49,14 +49,28 @@ the loop can described like this
 1. A core will read the mailbox
 2. if the data read is non zero then the core will jump to that particular address and will start executing the code.
 3. if is zero, repeat from step1
-All the cores will do this. 
+All the cores ( cores 1,2,3)  will do this except CORE-0. 
 
-Now if we want our cores to do different things then we can code, place it some where in memory, and 
-write the starting location in those mailboxes so that every core runs the code which you want them to run.
 
 So after hearing all this story a small doubt comes to every one we are not writing any code but who is doing this. there should be some instructions written by some one which will do this. 
 Yes without instructions nothing happens and this is provided by the raspberrypi foundation or one can also say that it is already present on the board and if you want to have a look over that file then follow the link below
 https://github.com/raspberrypi/tools/tree/master/armstubs 
 you can look into armstubs files
 
-This is what happens when you power up apart from the booting sequence.
+i think by now you got to know why will they go ? still not understood why then continue reading 
+Now if we want our cores to do different things then we write code, place it some where in memory, and 
+write the starting location in those mailboxes so that every core runs the code which we want them to run.
+
+Remember only CORE-0 is released and put at 0x8000 where our kernel.elf , our instructions , are present. 
+Its starts executing those instructions as soon as it comes there. 
+
+### So one more question who will write the addresses in those mailboxes ?
+who else only CORE-0 and it is the only resource we have. Because all the other cores are in a loop over those mailboxes.
+
+### How do you command it to write ? 
+simple include those instructions in the kernel.elf file and thats it. It will execute them one by one and will do the
+job for you 
+
+### If your KERNEL_OLD=0 ,what happens if we dont write the memory addresses in those mailboxes for CORE -1, CORE-2 ,CORE-3 ?
+Nothing catastrophic happens mostly you will end up with only one CORE and that is your CORE-0. You will not have multicore working. It will be like a single processor. 
+Apart from this nothing happens.
