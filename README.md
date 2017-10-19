@@ -68,8 +68,8 @@ Its starts executing those instructions as soon as it comes there.
 who else only CORE-0 and it is the only resource we have. Because all the other cores are in a loop over those mailboxes.
 
 ### How do you command it to write ? 
-simple include those instructions in the kernel.elf file and thats it. It will execute them one by one and will do the
-job for you 
+simple include those instructions in the kernel.img file and thats it. CORE-0 will execute them one by one and will do the
+job for you. If you dont want that to write then dont ask it to write. its that simple 
 
 ### If your KERNEL_OLD=0 ,what happens if we dont write the memory addresses in those mailboxes for CORE -1, CORE-2 ,CORE-3 ?
 Nothing catastrophic happens mostly you will end up with only one CORE and that is your CORE-0. You will not have multicore working. It will be like a single processor. 
