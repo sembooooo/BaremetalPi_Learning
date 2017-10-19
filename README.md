@@ -50,3 +50,10 @@ All the cores will do this.
 
 Now if we want our cores to do different things then we can code, place it some where in memory, and 
 write the starting location in those mailboxes so that every core runs the code which you want them to run.
+
+So after hearing all this story a small doubt comes to every one we are not writing any code but who is doing this. there should be some instructions written by some one which will do this. 
+Yes without instructions nothing happens and this is provided by the raspberrypi foundation or one can also say that it is already present on the board and if you want to have a look over that file then follow the link below
+https://github.com/raspberrypi/tools/tree/master/armstubs 
+you can look into armstubs files
+
+This is what happens when you power up apart from the booting sequence.
