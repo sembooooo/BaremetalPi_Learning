@@ -7,7 +7,8 @@ lets start from here
 the below link gives us the boot sequence of the raspberry pi . First go through it 
 https://raspberrypi.stackexchange.com/questions/10442/what-is-the-boot-sequence
 
-Next, in that sequence before kernel starts booting it is written that GPU looks into the config.txt and sets up accordingly 
+Next, in that sequence before kernel starts booting it is written that GPU looks into the config.txt and sets up accordingly
+link for config.txt file and go through boot which in present a little below https://www.raspberrypi.org/documentation/configuration/config-txt/  
 In that config.txt there is something called as "KERNEL_OLD". If this KERNEL_OLD =1 then the GPU will load the kernel.img file at the address 0x0 by making all four cores point at 0x0.
 [  what does all four cores point to 0x0 means?   ] 
 As the kernel.elf file is loaded from 0x0 instructions are present from 0x0 and all four cores will start to execute the instructions that are present from 0x0
