@@ -20,7 +20,7 @@ if KERNEL_OLD =0 then
 2.will make CORE-0 to point at that address i.e.,. 0x8000
 3.and it makes other cores [CORE-1 ,CORE-2, CORE-3 ] to loop over mailbox-3.
 
-### why do they loop and  what is the condition to come out of the loop?
+### what is the condition to come out of the loop?
 To know this first we need to know what a mailbox is.
 Mailbox is a  means of communication between GPU and our ARM Processor. 
 in raspberry pi every core has 3 Mailboxes. In order to write into them we need to write in one address 
