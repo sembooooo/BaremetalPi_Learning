@@ -25,8 +25,9 @@ To know this first we need to know what a mailbox is.
 There are actually two types of mailboxes 
 1. Those that are present in GPU 
 2. Those that are present in bcm28xx chip.
-Here i am referring to the second category mailboxes
-in raspberry pi every core is given  3 Mailboxes. In order to write into them we need to write in one address 
+
+Here i am referring to the second category mailboxes.
+In raspberry pi every core is given  3 Mailboxes. In order to write into them we need to write in one address 
 and in order to read or clear them we need to do this at other address. 
 here below i have given for all cores mailbox 3
 0x4000_008C Core 0 Mailbox 3 write - set (WO)
