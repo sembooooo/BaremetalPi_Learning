@@ -24,7 +24,9 @@ if KERNEL_OLD =0 then
 To know this first we need to know what a mailbox is.
 There are actually two types of mailboxes 
 1. Those that are present in GPU 
-2. Those that are present in bcm28xx chip.
+2. Those that are present in bcm28xx chip.These is not present in raspberry pi 1 as it is not a multicore Soc.
+And are only present in rpi2 rpi3 models as they bcm28xx chips are multicore Soc's 
+
 
 Here i am referring to the second category mailboxes.
 In raspberry pi every core is given  3 Mailboxes. In order to write into them we need to write in one address 
@@ -78,3 +80,10 @@ job for you. If you dont want that to write then dont ask it to write. its that 
 ### If your KERNEL_OLD=0 ,what happens if we dont write the memory addresses in those mailboxes for CORE -1, CORE-2 ,CORE-3 ?
 Nothing catastrophic happens mostly you will end up with only one CORE and that is your CORE-0. You will not have multicore working. It will be like a single processor. 
 Apart from this nothing happens.
+
+
+
+Gpu mailboxes are explained in another readme file
+Still the led example is not finished. 
+This is because in Rpi3 led is not directly connected to any GPIO header 
+So in order to lit the status ok on board Led we need to about both the mailboxes .
