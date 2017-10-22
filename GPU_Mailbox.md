@@ -21,7 +21,7 @@ A mailbox contains some channels in it. Each channel has some purpose.
 7: Counter
 8: Property tags (ARM -> VC)
 9: Property tags (VC -> ARM)
-                                             
+
 
 #### Why all these ? whats the importance ? 
 Let me tell you my experience with mailboxes. 
