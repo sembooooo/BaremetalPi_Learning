@@ -11,36 +11,17 @@ This is the first type of mailbox which i was referring to in the Baremetal_2.md
 Mailboxes are the primary means of communication between the ARM and the VideoCore firmware running on the GPU. For a list of the available mailboxes, see here.
 
 A mailbox contains some channels in it. Each channel has some purpose. 
-                                                          -----------------------
-                                              channel-0   |  power management   |
-                                                          -----------------------
-                                                          -----------------------
-                                              channel-1   | Frame buffer        |
-                                                          -----------------------
-                                                          -----------------------
-                                              channel-2   |  Virtual UART       |
-                                                          -----------------------
-                                                          -----------------------
-                                              channel-3   | VCHIQ Interface     |
-                                                          -----------------------
-                                                          -----------------------
-                                              channel-4   |   LEDs              |
-                                                          -----------------------
-                                                          -----------------------
-                                              channel-5   |   Buttons           |
-                                                          -----------------------
-                                                          -----------------------
-                                              channel-6   | Touch screen        |
-                                                          -----------------------
-                                                          -----------------------
-                                              channel-7   |    Counter          |
-                                                          -----------------------
-                                                          -----------------------------
-                                              channel-8   |  Property tags (ARM -> VC)|
-                                                          -----------------------------
-                                                          -----------------------------
-                                              channel-9   |  Property tags (VC -> ARM)|
-                                                          -----------------------------
+0: Power management
+1: Framebuffer
+2: Virtual UART
+3: VCHIQ
+4: LEDs
+5: Buttons
+6: Touch screen
+7: Counter
+8: Property tags (ARM -> VC)
+9: Property tags (VC -> ARM)
+                                             
 
 #### Why all these ? whats the importance ? 
 Let me tell you my experience with mailboxes. 
