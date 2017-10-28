@@ -37,13 +37,31 @@ A mailbox contains some channels in it. Each channel has some purpose.
 
 9: Property tags (VC -> ARM)
 
+and all this stuff you will get in the wiki link which is given above. 
+Pretty much huh ... These are not hardware mailboxes. This is some firmware running on the GPU and the GPU things are not revealed
+outside only less details are revelead. 
+
+So the above link also explains the way to communicate with that particular firmware so called "MAILBOX" 
+To put everything simple we write what ever we write in some array and pass address of that array. 
+There is a format to send that array. i will be explaining you  that later in this file but first let me tell you my experience with 
+this mailboxes.
 
 
 #### Why all these ? whats the importance ? 
 Let me tell you my experience with mailboxes. 
 I started to write an LED blinking code on raspberry pi 3. But there is no direct GPIO connection to that LED. That means you cannot
-write normal LED blinking program as you do for other raspberyy pi 1 or 2.
-There might me other ways of doing tihs but the only way i got to know is to use the channel 4 LED in a mailbox and to make an LED light up. 
+write normal LED blinking program as you do for other raspberyy pis' 1 or 2.
+There might me other ways of doing tihs but the only way i got to know is to use the property tags from ARM to VC in a mailbox and to make an LED light up. 
+
+#### So how do we do that ?
+As i said we will write all the information in some array which will follow some rules. 
+so how to write it. 
+So if you go through the link you might have come to somethings called buffer interface, tags and all such stuff.
+
+
+
+
+
 
 
 
