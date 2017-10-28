@@ -1,3 +1,5 @@
+Once again thanks to deboer for explaining this stuff to me. 
+
 This doc contains some information regarding the mailboxes in raspberry pi.
 ##### Disclaimer: This is not the information which i found exclusively but i felt to write it in an order which i understand.
 ##### so i am writing this. 
@@ -10,7 +12,7 @@ This is the first type of mailbox which i was referring to in the Baremetal_2.md
 ### Mailboxe
 Mailboxes are the primary means of communication between the ARM and the VideoCore firmware running on the GPU. For a list of the available mailboxes, see here.
 
-A mailbox contains some channels in it. Each channel has some purpose. 
+A mailbox contains some channels in it. Each channel has some purpose.
 0: Power management
 1: Framebuffer
 2: Virtual UART
