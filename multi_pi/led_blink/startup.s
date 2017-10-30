@@ -3,10 +3,7 @@
 .equ CORE1, 0x1
 .equ CORE2, 0x2
 .equ CORE3, 0x3 
-.equ CORE0_MAILBOX0, 0X40000080	
-.equ CORE1_MAILBOX0, 0X40000090
-.equ CORE2_MAILBOX0, 0X400000A0
-.equ CORE3_MAILBOX0, 0X400000B0
+
 /* here starts our .text.startup where our startup code is present */
 .section ".text.startup" 
 .globl _start
@@ -52,9 +49,9 @@ As our aim is to make diferrent cores to execute different code what we do is
 how we do this ?
 1. we will make our cores to loop over a single memory address. 
 2. we will make one of our core (here core0) to write the memory location where they need to jump to and start executing the code  
-3. These other cores (here core 1,core 2,core 3) will read the memory location which is named as CORE1_MAILBOX0  in the top of the file 
+3. These other cores (here core 1,core 2,core 3) will read the memory location which is named as CORE1_MAILBOX  in the top of the file 
    and if its values is zero it will again read and repeat this untill some non zero value is written in those memory locations by some core(here core 0)
-4. here in this example every other core except core 0 loops and core 0 jumps to main function and sets the value at CORE1_MAILBOX0 
+4. here in this example every other core except core 0 loops and core 0 jumps to main function and sets the value at CORE1_MAILBOX 
    in the main function. 
 */
 	b mailbox
@@ -67,16 +64,33 @@ how we do this ?
 
 	mailbox:
 	ldr r4,=CORE3
-	ldr r2,=CORE3_MAILBOX0
+	ldr r2,=CORE3_MAILBOX
 	cmp r4,r5
 	beq loop_in_mailbox
 	ldr r4,=CORE2
-	ldr r2,=CORE2_MAILBOX0
+	ldr r2,=CORE2_MAILBOX
 	cmp r4,r5
 	beq loop_in_mailbox
 	ldr r4,=CORE1
-	ldr r2,=CORE1_MAILBOX0
+	ldr r2,=CORE1_MAILBOX
 	cmp r4,r5
 	beq loop_in_mailbox
 	bl main
+	
+	.section ".data" "aw"
+	.balign 4
+	
+	.globl Cores_Ready 
+	Cores_Ready: .4bytes 0;
+	
+	.globl CORE1_MAILBOX 
+	CORE1_MAILBOX: .4bytes 0;
+	
+	.globl CORE2_MAILBOX 
+	CORE2_MAILBOX: .4bytes 0;
+	
+	.globl CORE3_MAILBOX 
+	CORE3_MAILBOX: .4bytes 0;
+	
+	
 
