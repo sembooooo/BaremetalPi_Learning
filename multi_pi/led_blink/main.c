@@ -2,6 +2,10 @@
 #define GPFSEL1 2
 #define GPSET0 9
 #define GPCLR0 12
+/*-----------------------MAILBOX VARIABLES------------------------------------*/
+extern unsigned int CORE1_MAILBOX;   /* This is our CORE1 mailbox variable */
+extern unsigned int CORE2_MAILBOX;   /* This is our CORE2 mailbox variable */
+extern unsigned int CORE3_MAILBOX;   /* This is our CORE3 mailbox variable */
 /*----------------------MAILBOXES WRITE SET REGISTERS --------------------------*/
 #define CORE0_MAILBOX0  0x40000080UL
 #define CORE1_MAILBOX0  0X40000090UL
