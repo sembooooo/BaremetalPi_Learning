@@ -1,7 +1,11 @@
-#define GPIO_BASE 0x3F200000UL
-#define GPFSEL1 2
-#define GPSET0 9
-#define GPCLR0 12
+/*----------------------------	DESCRIPTION OF WHAT THIS CODE DOES ---------------------------------------
+Description: To be in breif the code only makes an LED  glow.
+     
+
+*/
+
+
+
 /*-----------------------MAILBOX VARIABLES------------------------------------*/
 extern unsigned int CORE1_MAILBOX;   /* This is our CORE1 mailbox variable */
 extern unsigned int CORE2_MAILBOX;   /* This is our CORE2 mailbox variable */
