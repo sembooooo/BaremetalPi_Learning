@@ -59,8 +59,8 @@ how we do this ?
 */
 	b mailbox
  	loop_in_mailbox:
-		ldr r2,[r2]              // every core comes and checks whether  the value specified at the mailbox address is 0 or non zero
-		cmp r2,#0                // here it compares 
+		ldr r1,[r2]              // every core comes and checks whether  the value specified at the mailbox address is 0 or non zero
+		cmp r1,#0                // here it compares 
 		beq loop_in_mailbox	 // if it is non-zero then it means that CORE-0 has written the address where our core needs 
 					 //to go and to execute 	
 	bx r2                            // jump to the particular address given by CORE-0 and start executing the program.
