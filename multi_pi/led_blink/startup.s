@@ -43,6 +43,7 @@ how do we achieve this?
 /*
 Disclaimer : for those who know GPU mailboxes and for their information these are not those GPU mailboxes
 	     instead they are just memory location . For those who dont know GPU mailboxes ignore this disclaimer
+	     And these are my own mailboxes which we intentionally make the cores to loop around 
 	    
 After setting up the stack now we need to make our cores execute some code and we need to direct them to that code. 
 As our aim is to make diferrent cores to execute different code what we do is
