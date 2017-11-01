@@ -4,6 +4,10 @@
 #define CORE2_MAILBOX0  0x400000ACUL
 #define CORE3_MAILBOX0  0x400000BCUL
 /*------------------------------------------------------------------------------*/
+extern unsigned int CORE1_MAILBOX;
+extern unsigned int CORE2_MAILBOX;
+extern unsigned int CORE3_MAILBOX;
+/*-------------------------------------------------------------------------------*/
 
 #define MAILBOX_BASE 0x3F00B880UL
 
