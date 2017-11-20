@@ -3,14 +3,53 @@
 .equ CORE1, 0x1
 .equ CORE2, 0x2
 .equ CORE3, 0x3 
+/*
+------------------------------------------------------------------------------------------------------------------------------------
+	FIQ,IRQ,SVC and HYP mode values
+------------------------------------------------------------------------------------------------------------------------------------
+*/
 
-/* here starts our .text.startup where our startup code is present */
+.equ CPU_HYPMODE, 0X11
+.equ CPU_IRQMODE, 0X12
+.equ CPU_SVCMODE, 0X13
+.equ CPU_FIQMODE, 0X1A
+
+/*
+------------------------------------------------------------------------------------------------------------------------------------
+	FIQ and IRQ flag position in program status register
+------------------------------------------------------------------------------------------------------------------------------------
+*/
+
+.equ I_BIT, (1<<7)
+.equ F_BIT, (1<<6)
+
+/*
+------------------------------------------------------------------------------------------------------------------------------------
+A LITTLE INTRODUCTON ON THESE MACROS':
+In these macros we are mentioning the value that is to be present in the program status register
+what we do is, we will enter into one mode and we will disable the IRQ and FIQ exceptions from occuring. This means we are disabling
+those exceptions
+Say we want to go to FIQ Mode what we do we will make the processor go in FIQ mode and will just disable the Exceptions from arising.
+this does not mean that we are not in FIQ mode
+-------------------------------------------------------------------------------------------------------------------------------------
+*/
+.equ CPU_FIQMODEVALUE, (CPU_FIQMODE)|(F_BIT)|(I_BIT)
+.equ CPU_IRQMODEVALUE, (CPU_IRQMODE)|(F_BIT)|(I_BIT)
+.equ CPU_HYPMODEVALUE, (CPU_HYPMODE)|(F_BIT)|(I_BIT)
+.equ CPU_SVCMODEVALUE, (CPU_SVCMODE)|(F_BIT)|(I_BIT)
+
+/*
+--------------------------------------------------------------------------------------------------------------------------------------
+ Here our.text.startup section is located where our startup code is present
+--------------------------------------------------------------------------------------------------------------------------------------
+ */
 .section ".text.startup" 
 .globl _start
 .balign 4
 _start: 
 
 /*
+---------------------------------------------------------------------------------------------------------------------------------------
  Here what we will do first is we allocate  stack for each and every core. By doing this each and every core will get its own stack
  Here i am giving a 512 bytes of stack. It is just a vague number which i took.
 how do we achieve this? 
@@ -21,6 +60,7 @@ how do we achieve this?
 4. __stack_pointer_core0, __stack_pointer_core1 etc are defined in the linker script for now just think them as address in the memory 
 5. we will store those values in stack pointer register [SP] and this can be seen at the label set_stack_func 
 6. So finally we now have got four different stacks for four cores.
+----------------------------------------------------------------------------------------------------------------------------------------
 */
 	ldr r4,=CORE0					
 	ldr r0,=__stack_pointer_core0 
@@ -92,6 +132,3 @@ how we do this ?
 	
 	.globl CORE3_MAILBOX 
 	CORE3_MAILBOX: .4bytes 0;
-	
-	
-
