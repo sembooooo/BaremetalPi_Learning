@@ -50,6 +50,18 @@ _start:
 
 /*
 ---------------------------------------------------------------------------------------------------------------------------------------
+	 GETTING OUT OF HYPERVISOR MODE AND ENTERING TO SVC MODE 
+---------------------------------------------------------------------------------------------------------------------------------------
+*/
+	mrs r0, cpsr 			// READ THE CURRENT PROGRAM STAUS REGISTER
+	and r1, r0, #0x1F		// CLEAR ALL THE BITS OTHER THAN MODE BITS	
+	cmp r1, #CPU_HYPMODEVALUE	// CHECK WHETHER WE ARE IN HYP MODE OR NOT	
+	bne STACK_ALLOCATION		//
+ 	bic r0, r0, 0x1F		// clear the mode bits in the program status register
+	orr r0, r0, #CPU_SVCMODEVALUE
+	mrs spsr_cxsf, r0		// NOW WRITE THE VALUE INORDER TO BRING OUR PROCESSOR TO SVC MODE
+/*
+---------------------------------------------------------------------------------------------------------------------------------------
  Here what we will do first is we allocate  stack for each and every core. By doing this each and every core will get its own stack
  Here i am giving a 512 bytes of stack. It is just a vague number which i took.
 how do we achieve this? 
@@ -62,6 +74,7 @@ how do we achieve this?
 6. So finally we now have got four different stacks for four cores.
 ----------------------------------------------------------------------------------------------------------------------------------------
 */
+STACK_ALLOCATION:
 	ldr r4,=CORE0					
 	ldr r0,=__stack_pointer_core0 
 	mrc p15,0,r5,c0,c0,5  				
@@ -81,19 +94,27 @@ how do we achieve this?
 		mov sp,r0
 		
 /*
+---------------------------------------------------------------------------------------------------------------------------------------
 Disclaimer : for those who know GPU mailboxes and for their information these are not those GPU mailboxes
 	     instead they are just memory location . For those who dont know GPU mailboxes ignore this disclaimer
 	     And these are my own mailboxes which we intentionally make the cores to loop around 
 	    
 After setting up the stack now we need to make our cores execute some code and we need to direct them to that code. 
 As our aim is to make diferrent cores to execute different code what we do is
+
 how we do this ?
+
 1. we will make our cores to loop over a single memory address. 
+
 2. we will make one of our core (here core0) to write the memory location where they need to jump to and start executing the code  
+
 3. These other cores (here core 1,core 2,core 3) will read the memory location which is named as CORE1_MAILBOX  in the top of the file 
-   and if its values is zero it will again read and repeat this untill some non zero value is written in those memory locations by some core(here core 0)
+   and if its values is zero it will again read and repeat this untill some non zero value is written in those memory locations by 
+   some core(here core 0)
+
 4. here in this example every other core except core 0 loops and core 0 jumps to main function and sets the value at CORE1_MAILBOX 
    in the main function. 
+---------------------------------------------------------------------------------------------------------------------------------------
 */
 	b mailbox
  	loop_in_mailbox:
