@@ -61,7 +61,7 @@ brief- This sets the desired pullup or pull down  for the desired gpio pin
 	
 */
 
-#define GPIO_setpupdr(gpio,pinnumber,pull_type) (gpio->GPIOx_PUPDR &=~(pull_type<< 2*(pinnumber-1)))
+#define GPIO_setpupdr(gpio,pinnumber,pull_type) gpio->GPIOx_PUPDR |=(pull_type<< 2*(pinnumber-1))
 /*
 brief- This sets the desired output for the port  
 	name: GPIO_setodr
