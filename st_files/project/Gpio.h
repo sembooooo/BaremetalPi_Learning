@@ -44,7 +44,7 @@ brief- This sets the desired mode for the desired gpio pin
 	
 */
 
-#define GPIO_setmode(gpio, pinnumber, modetype)    gpio->GPIOx_MODER |=(modetype << 2*(pinnumber-1))
+#define GPIO_setmode(gpio, pinnumber, modetype)    gpio->GPIOx_MODER |=modetype << 2*pinnumber
 /*
 	Macros for the pull up pull down register
 */
@@ -61,7 +61,7 @@ brief- This sets the desired pullup or pull down  for the desired gpio pin
 	
 */
 
-#define GPIO_setpupdr(gpio,pinnumber,pull_type) gpio->GPIOx_PUPDR |=(pull_type<< 2*(pinnumber-1))
+#define GPIO_setpupdr(gpio,pinnumber,pull_type)  gpio->GPIOx_PUPDR |=pull_type<< 2*pinnumber
 /*
 brief- This sets the desired output for the port  
 	name: GPIO_setodr
