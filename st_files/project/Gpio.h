@@ -20,19 +20,19 @@ typedef struct{
 Macros for all the gpio base address
 */
 
-#define GPIOA	((GPIO_Typedef *)0x40020000UL)
-#define GPIOB	((GPIO_Typedef *)0x40020400UL)	
-#define GPIOC	((GPIO_Typedef *)0x40020800UL)
-#define GPIOD	((GPIO_Typedef *)0x40020c00UL)
-#define GPIOE	((GPIO_Typedef *)0x40021000UL)
-#define GPIOH	((GPIO_Typedef *)0x40021c00UL)
+#define GPIOA	(GPIO_Typedef *)0x40020000UL
+#define GPIOB	(GPIO_Typedef *)0x40020400UL	
+#define GPIOC	(GPIO_Typedef *)0x40020800UL
+#define GPIOD	(GPIO_Typedef *)0x40020c00UL
+#define GPIOE	(GPIO_Typedef *)0x40021000UL
+#define GPIOH	(GPIO_Typedef *)0x40021c00UL
 /*
 	MAcros for the modes of GPIO's
 */
-#define INPUT                     ((uint32_t)0)
-#define OUTPUT                    ((uint32_t)1)
-#define ALTERNATE_FUNCTION        ((uint32_t)2)
-#define ANALOG                    ((uint32_t)3)
+#define INPUT                     (uint32_t)0
+#define OUTPUT                    (uint32_t)1
+#define ALTERNATE_FUNCTION        (uint32_t)2
+#define ANALOG                    (uint32_t)3
 
 /*
 brief- This sets the desired mode for the desired gpio pin 
@@ -44,12 +44,12 @@ brief- This sets the desired mode for the desired gpio pin
 	
 */
 
-#define GPIO_setmode(gpio, pinnumber, modetype) (gpio->GPIOx_MODER &=~(modetype << 2*(pinnumber-1) )) 
+#define GPIO_setmode(gpio, pinnumber, modetype)    gpio->GPIOx_MODER |=(modetype << 2*(pinnumber-1))
 /*
 	Macros for the pull up pull down register
 */
-#define PULLUP (uint32_t)1
-#define PULLDOWN  (uint32_t)2
+#define PULLUP              (uint32_t)1
+#define PULLDOWN            (uint32_t)2
 #define NOPULLUP_NOPULLDOWN (uint32_t)0
 /*
 brief- This sets the desired pullup or pull down  for the desired gpio pin 
