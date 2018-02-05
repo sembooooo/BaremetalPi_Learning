@@ -34,7 +34,26 @@
 
 typedef struct 
 {
-	uint32
+	uint32_t CTRL;
+	uint32_t LOAD;
+	uint32_t VAL;
+	uint32_t CALIB;
+}Systick_Typedef;
+
+#define STK  ((Systick_Typedef *)0x0xE000E010)
+
+__inline void systick_config(uint32_t count )
+{
+	
+	
+	/* 1. Program the reload value */
+	STK->LOAD = count-1 ;
+	/* Clear the current register */                          
+	STK->VAL = 0X00000000;
+	/* Program control and status register */
+	STK_CTRL |= 0X00000003; 
+	S
+	
 }
 
 
