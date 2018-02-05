@@ -6,5 +6,5 @@ In progress code:
 
 
 Note: I have taken the help of some st provided header files and CMSIS files for learning the coding style(inline functions, typedefs' etc)  they have adopted to. 
-For feasibility i have reused some structure typedefs as they are very long to write. 
+For ease in typing i have copied and pasted some structure typedefs as they are very long to write. 
 
