@@ -29,31 +29,54 @@
 */
 
 #ifndef STDINT_H_
-#define STDINT_H_
+#include<stdint.h>
 #endif 
-
+/*
+			A typedef structure to ease the access of systick registers 
+*/
 typedef struct 
 {
 	uint32_t CTRL;
 	uint32_t LOAD;
 	uint32_t VAL;
 	uint32_t CALIB;
-}Systick_Typedef;
+}Systick_typedef;
 
-#define STK  ((Systick_Typedef *)0x0xE000E010)
+/*
+     A Macro that is used for accessing the systick registers
+*/
 
-__inline void systick_config(uint32_t count )
+#define STK  ((Systick_typedef *) 0xE000E010)
+
+/*
+			A typedef structure for the SHP [ 'S'ystem 'H'andler 'p'riority register  ]
+			in this we set the priority for the Systick handler
+
+*/
+
+typedef struct
+{
+	 uint16_t RESERVED;
+	 uint8_t PENDSV;
+	 uint8_t SYSTICK;
+} SHP3_typedef;
+
+#define SHP3 ((SHP3_typedef *)0xE000ED20)
+
+__inline void systick_config( uint32_t count , uint8_t prio  )
 {
 	
 	
 	/* 1. Program the reload value */
-	STK->LOAD = count-1 ;
+	STK->LOAD = (count-1) ;
 	/* Clear the current register */                          
-	STK->VAL = 0X00000000;
+	STK->VAL = 0UL;
 	/* Program control and status register */
-	STK_CTRL |= 0X00000003; 
-	S
-	
+	STK->CTRL |= 0X00000003; 
+	/* set the priority in the SHP block */
+	SHP3->SYSTICK = prio;
 }
+
+
 
 
