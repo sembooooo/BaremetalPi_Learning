@@ -69,7 +69,8 @@ SysTick_Handler
     CPSIE   I       ; tasks run with interrupts enabled
     BX      LR      ; restore R0-R3,R12,LR,PC,PSR
 	
-	
+	ALIGN
+	END
 	
 	
 	
