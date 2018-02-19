@@ -22,8 +22,15 @@ Some brief info regarding thread control block TCB
 #include<stdint.h>
 #endif 
 
+#include "Systick.h"
+
 #define NUMTHREADS 3  // maximum number of threads
 #define STACKSIZE 100 // number of 32-bit words in stack
+
+extern void startOS(void);
+void OS_Launch(void);
+void OS_Init(void);
+uint32_t OS_AddThreads(void(*task0)(void), void(*task1)(void), void(*task2)(void));
 
 
 typedef struct tcb{
@@ -74,5 +81,14 @@ uint32_t OS_AddThreads(void(*task0)(void), void(*task1)(void), void(*task2)(void
   RunPt = &Thread[0];        // thread 0 will run first  
   return 1; // successful 
 	}
-	
-	
+
+void OS_Launch()
+{
+	systick_config(2000000,0xF0);
+	startOS();
+}
+
+void OS_Init()
+{
+		__asm( "CPSID I ");  /* Disable interrupts */
+}
