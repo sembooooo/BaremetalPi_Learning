@@ -13,7 +13,7 @@
 
 	EXTERN RunPt
 		;This tells the compiler that RunPt is defined in another file
-	EXPORT StartOS
+	EXPORT startOS
 	EXPORT SysTick_Handler
 		;The export directive will allow the functions to be used in another file also
 		
@@ -27,7 +27,7 @@
 ;	3. make the processor run the current task
 ; note: after this SysTick_Handler comes into play to swap the tasks.
 	
-startOS
+startOS PROC
 	LDR R0,=RunPt   ; Currently running thread
 	LDR R2,[R0]     ; store the value of the address of TCB in R2
 	LDR SP,[R2]		; Store the stack address of the current thread
@@ -40,7 +40,7 @@ startOS
 	POP {LR}
 	CPSIE I			; Enable interrupts at processor level
 	BX LR
-	
+	ENDP 
 	
 ; BREIF ABOUT SYSTICK HANDLER: 
 ; ----------------------------
@@ -65,7 +65,7 @@ SysTick_Handler
 	LDR R1,[R1,#4]  ; R1 = RunPt->next.
 	STR R1,[R0]		; RunPt = RunPt->next   Traversing in the linked list
 	LDR SP,[R1]
-	POP     {R4-R11}; restore regs r4-11
+	POP {R4-R11}	; restore regs r4-11
     CPSIE   I       ; tasks run with interrupts enabled
     BX      LR      ; restore R0-R3,R12,LR,PC,PSR
 	
