@@ -9,6 +9,6 @@ This will just give a hang of the basic things that will be done by the schedule
 Slowly i will be adding the some more folders where i will try to add more features into the scheduler and into the Operating system.
 
 
-for the Gpio.h and Systick.h please refer to the folder ######project
+for the Gpio.h and Systick.h please refer to the folder ####project
 
 
