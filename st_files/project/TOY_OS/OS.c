@@ -1,6 +1,7 @@
+
 /*
 			***************************************************
-									Thread control block 
+							Thread control block 
 			***************************************************						
 			
 Some brief info regarding thread control block TCB
@@ -31,8 +32,17 @@ extern void startOS(void);
 void OS_Launch(void);
 void OS_Init(void);
 uint32_t OS_AddThreads(void(*task0)(void), void(*task1)(void), void(*task2)(void));
+/******************GLOBAL VARIABLES*******************	
+*/
+uint32_t KERNEL_numberoftasks = -1 ;
 
 
+/******************************************************
+			TCB -Thread Control block structure 
+This only contains two feilds. 
+	1. a pointer to its stack
+	2. a pointer to the other TCB.
+******************************************************/
 typedef struct tcb{
   uint32_t *sp;      // pointer to stack, valid for threads not running
   struct tcb *next; // linked-list pointer
@@ -92,3 +102,45 @@ void OS_Init()
 {
 		__asm( "CPSID I ");  /* Disable interrupts */
 }
+
+/**
+@ToyOS_CreateTask()
+This will create and intialize a TCB for a task or thread. We use the word thread and a task interchangibly	
+@parameters - Takes in the starting address of the code for that task
+@return  0 -  success
+        -1 -  failure
+*/
+ uint32_t ToyOS_CreateTask( void (*task)(void))
+ {
+		
+	/*
+		as one more task is going to be creaetd increment the kernel variable for number of tasks -KERNEL_numberoftasks
+	*/
+	KERNEL_numberoftasks++;
+	 
+	 
+	 /*
+	 1. There should be a variable in the kernel telling us how many tasks are present.
+	 By this we will get to know whether there is space to allow one more task to create or to return 0 
+	 */
+	 if( KERNEL_numberoftasks <= NUMTHREADS)
+	 {
+		 /*
+		 if this is the first thread that we are creating then we the thread. next is to pointed to that thread only as there are no other threads.
+		 */
+		 if( KERNEL_numberoftasks = =0)
+		 {
+			 Thread[0].next = Thread[0] ;
+			 return 0;
+		 }
+		 /*
+			As we have created a new thread or task we have link the last TCB to the current TCB and the current TCB to first TCB 
+			in order to maintain the linked list. 
+		 */
+		 Thread[KERNEL_numberoftasks-1].next = Thread[KERNEL_numberoftasks] ;
+		 
+		 
+	 }
+	 else
+		 return -1
+ }
