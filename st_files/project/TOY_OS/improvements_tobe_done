@@ -1,0 +1,5 @@
+Notes under developement
+
+Now our current Os needs three tasks if three tasks are not given this might go wrong. 
+But as it is custom OS we can change the code but i do not want to do that so i am going to modify the current OS_AddThreads API to it.
+And as of now we have some only single task
