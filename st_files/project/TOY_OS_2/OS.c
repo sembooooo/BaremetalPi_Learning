@@ -32,9 +32,9 @@ Some brief info regarding thread control block TCB
 extern void startOS(void);
 void OS_Launch(void);
 void OS_Init(void);
-uint32_t OS_AddThreads(void(*task0)(void), void(*task1)(void), void(*task2)(void));
-/******************GLOBAL VARIABLES*******************	
-*/
+uint32_t ToyOS_CreateTask( void (*task)(void))
+	
+/******************GLOBAL VARIABLES********************/
 
 typedef struct 
 {
