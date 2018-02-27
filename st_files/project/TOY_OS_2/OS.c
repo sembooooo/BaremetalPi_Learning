@@ -1,4 +1,3 @@
-
 /*
 			***************************************************
 							Thread control block 
@@ -32,21 +31,15 @@ Some brief info regarding thread control block TCB
 extern void startOS(void);
 void OS_Launch(void);
 void OS_Init(void);
-uint32_t ToyOS_CreateTask( void (*task)(void))
+uint32_t ToyOS_CreateTask( void (*task)(void));
+
 	
 /******************GLOBAL VARIABLES********************/
 
-typedef struct 
-{
-	sint8_t numberoftasks;  // holds the number of tasks -1 count 
-	uint8_t  STK_PT;                // holds the amount of stack that was used
-} kernel_table;
 
-kernel_table KERNEL; 
-/***************INTIALIZATION OF KERNEL TABLE***************/
+	int16_t numberoftasks = -1;  // holds the number of tasks -1 count 
+	uint16_t  STK_PT = 0 ;       // holds the amount of stack that was used
 
- KERNEL.numberoftasks = -1 ; 
- KERNEL.STK_PT = 0 ;
 /******************************************************
 			TCB -Thread Control block structure 
 This only contains two feilds. 
@@ -56,12 +49,13 @@ This only contains two feilds.
 typedef struct tcb{
   uint32_t *sp;      // pointer to stack, valid for threads not running
   struct tcb *next; // linked-list pointer
+	
 } TCB;
 TCB Thread[NUMTHREADS];
-
 TCB *RunPt;
 
 uint32_t stack[NUMTHREADS][STACKSIZE]; /* Stack for our processor*/
+
 
 
 /**
@@ -89,7 +83,57 @@ void SetInitialStack(int i){
   stack[i][STACKSIZE-14] = 0x06060606; // R6 
   stack[i][STACKSIZE-15] = 0x05050505; // R5 
   stack[i][STACKSIZE-16] = 0x04040404; // R4     
-} 
+}
+
+/**
+@ToyOS_CreateTask()
+This will create and intialize a TCB for a task or thread. We use the word thread and a task interchangibly	
+@parameters - Takes in the starting address of the code for that task
+@return  0 -  success
+        -1 -  failure
+*/
+
+uint32_t ToyOS_CreateTask( void (*task)(void))
+{
+		
+	/*
+		as one more task is going to be creaetd increment the kernel variable for number of tasks -numberoftasks
+	*/
+	numberoftasks++;
+	 
+	 
+	 /*
+	 1. There should be a variable in the kernel telling us how many tasks are present.
+	 By this we will get to know whether there is space to allow one more task to create or to return 0 
+	 */
+	 if( numberoftasks <= NUMTHREADS)
+	 {
+		 /*
+		 if this is the first thread that we are creating then we the thread. next is to pointed to that thread only as there are no other threads.
+		 */
+		 if( numberoftasks == 0)
+		 {
+			 Thread[0].next = &Thread[0] ;
+			 return 0;
+		 }
+		 /*
+			As we have created a new thread or task we have link the last TCB to the current TCB and the current TCB to first TCB 
+			in order to maintain the linked list. 
+		 */
+		 Thread[numberoftasks-1].next = &Thread[numberoftasks];
+		 /* Set up the stack for the thread */
+		 SetInitialStack(STK_PT);
+		 stack[STK_PT][STACKSIZE-2] = (uint32_t)(task);
+		 STK_PT++;
+	 }
+	 else
+		 return 1;
+	 
+return 0;
+}
+ 
+
+
 void OS_Launch()
 {
 	/*
@@ -102,13 +146,13 @@ void OS_Launch()
 		Assign the first thread to the current running task pointer " RunPt ".
 		If no tasks are there then just be in a loop for now.
 	*/
-		if(KERNEL.numberoftasks == -1) 
+		if(numberoftasks == -1) 
 		{
 			while(1);
 		}
 		else
 		{
-			RunPt = &Thread[0]	
+			RunPt = &Thread[0];	
 		}
 	
 	/*
@@ -124,48 +168,8 @@ void OS_Launch()
  void OS_Init()
 {
 		__asm( "CPSID I ");  /* Disable interrupts */
-}
-
-/**
-@ToyOS_CreateTask()
-This will create and intialize a TCB for a task or thread. We use the word thread and a task interchangibly	
-@parameters - Takes in the starting address of the code for that task
-@return  0 -  success
-        -1 -  failure
-*/
- uint32_t ToyOS_CreateTask( void (*task)(void))
- {
-		
-	/*
-		as one more task is going to be creaetd increment the kernel variable for number of tasks -KERNEL.numberoftasks
+	/* 
+		Make the PSP as the stack pointer in thread mode
 	*/
-	KERNEL.numberoftasks++;
-	 
-	 
-	 /*
-	 1. There should be a variable in the kernel telling us how many tasks are present.
-	 By this we will get to know whether there is space to allow one more task to create or to return 0 
-	 */
-	 if( KERNEL.numberoftasks <= NUMTHREADS)
-	 {
-		 /*
-		 if this is the first thread that we are creating then we the thread. next is to pointed to that thread only as there are no other threads.
-		 */
-		 if( KERNEL.numberoftasks = =0)
-		 {
-			 Thread[0].next = Thread[0] ;
-			 return 0;
-		 }
-		 /*
-			As we have created a new thread or task we have link the last TCB to the current TCB and the current TCB to first TCB 
-			in order to maintain the linked list. 
-		 */
-		 Thread[KERNEL.numberoftasks-1].next = Thread[KERNEL.numberoftasks];
-		 /* Set up the stack for the thread */
-		 SetInitialStack(STK_PT);
-		 stack[STK_PT][STACKSIZE-2] = (uint32_t * )(*task) 
-		 STK_PT++;
-	 }
-	 else
-		 return -1;
- }
+	
+}
