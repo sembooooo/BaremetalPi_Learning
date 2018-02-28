@@ -21,12 +21,12 @@ Some brief info regarding thread control block TCB
 #ifndef STDINT_H_
 #include<stdint.h>
 #endif 
-
+#include "stm32f411xe.h"
 #include "Systick.h"
 
 #define NUMTHREADS 3  // maximum number of threads
 
-#define STACKSIZE 19 // number of 32-bit words in stack
+#define STACKSIZE 30 // number of 32-bit words in stack
 /*******************Function Prototypes*****************/
 extern void startOS(void);
 void OS_Launch(void);
@@ -56,8 +56,6 @@ TCB *RunPt;
 
 uint32_t stack[NUMTHREADS][STACKSIZE]; /* Stack for our processor*/
 
-
-
 /**
 		The SetIntialStack() will only intialize the stack memory of a particular task.
 		this is called in the function ToyOS_CreateTask() so as soon as a task is created
@@ -65,8 +63,7 @@ uint32_t stack[NUMTHREADS][STACKSIZE]; /* Stack for our processor*/
 */
 void SetInitialStack(int i){ 
   Thread[i].sp = &stack[i][STACKSIZE-16]; // thread stack pointer 
-	
-  stack[i][STACKSIZE-1] = 0x01000000; // Thumb bit 
+	stack[i][STACKSIZE-1] = 0x01000000; // Thumb bit 
 	/* stack[i][STACKSIZE -2] contains PC address where we will assign the task address */
   stack[i][STACKSIZE-3] = 0x14141414; // R14 
   stack[i][STACKSIZE-4] = 0x12121212; // R12 
@@ -106,40 +103,43 @@ uint32_t ToyOS_CreateTask( void (*task)(void))
 	 1. There should be a variable in the kernel telling us how many tasks are present.
 	 By this we will get to know whether there is space to allow one more task to create or to return 0 
 	 */
-	 if( numberoftasks <= NUMTHREADS)
+	 if( numberoftasks < NUMTHREADS)
 	 {
 		 /*
 		 if this is the first thread that we are creating then we the thread. next is to pointed to that thread only as there are no other threads.
 		 */
 		 if( numberoftasks == 0)
 		 {
-			 Thread[0].next = &Thread[0] ;
-			 return 0;
+			 Thread[0].next = &Thread[0];
+		 }
+		 else
+		 {
+			Thread[numberoftasks-1].next = &Thread[numberoftasks];
+				Thread[numberoftasks].next=&Thread[0];
 		 }
 		 /*
 			As we have created a new thread or task we have link the last TCB to the current TCB and the current TCB to first TCB 
 			in order to maintain the linked list. 
 		 */
-		 Thread[numberoftasks-1].next = &Thread[numberoftasks];
+		 
 		 /* Set up the stack for the thread */
 		 SetInitialStack(STK_PT);
 		 stack[STK_PT][STACKSIZE-2] = (uint32_t)(task);
 		 STK_PT++;
+		 return 0;
 	 }
 	 else
 		 return 1;
 	 
-return 0;
+
 }
- 
 
-
-void OS_Launch()
+void OS_Launch(void)
 {
 	/*
 		This line here configures the systick and sets the priority
 	*/
-	systick_config(2000000,0xF0);
+	systick_config(20000,0xF0);
 	
 	/*
 		check if there is atleast one thread is created.
@@ -167,9 +167,21 @@ void OS_Launch()
 
  void OS_Init()
 {
-		__asm( "CPSID I ");  /* Disable interrupts */
-	/* 
-		Make the PSP as the stack pointer in thread mode
+		/* disable irq's */
+	__disable_irq();
+	/*set PSP as the stack pointer in thread mode 
+		For this we have to set the value in the control register
 	*/
+	__set_CONTROL(2);
+	
+	/*
+		set the process stack pointer to the top of the statically allocated 
+	*/
+	__set_PSP( (uint32_t)&stack[NUMTHREADS-1][STACKSIZE-1]);
+	/*
+		enable irq's
+	*/
+	__enable_irq();
+
 	
 }
