@@ -1,3 +1,5 @@
+to know how it works please open " HOW IT WORKS " file [ in progress] 
+
 CODE IS DEVELOPED.
 Document is in progress.
 
@@ -10,4 +12,6 @@ Differences between the edx course code  and my code.
 2. Even seperate stacks for threads and exceptions
 3.Uses API TOY_OSCreateTask() which will assign and intiliaze the stack and will create a TCB. 
 
-coming to license i hold nothing against this code as i have learned from EDX course and used those techiniques to create my own and a line of assembly code from Ucos as both of them are in GNU license this too holds the GNU license 
+coming to license i hold nothing against this code as i have learned from EDX course and used those techiniques to create my own and a line of assembly code from Ucos as both of them are in GNU license this too holds the GNU license
+
+
