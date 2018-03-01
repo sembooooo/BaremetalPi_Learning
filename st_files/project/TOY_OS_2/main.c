@@ -12,7 +12,6 @@
 #include "Gpio.h"
 /* this header file contains all the necessary function declarations*/
 extern void OS_Launch(void);
-extern void OS_Init(void);
 extern uint32_t ToyOS_CreateTask( void (*task)(void));
 uint32_t  status=1;
 
@@ -47,7 +46,7 @@ void Task2()
 			}
 		}
 }
-/*
+
 void Task3()
 {
 	  GPIO_setmode(GPIOD,15,OUTPUT);
@@ -62,14 +61,13 @@ void Task3()
 			}
 		}
 }
-*/
+
 
 int main()
 {
-	OS_Init();
 	ToyOS_CreateTask(&Task1);
 	ToyOS_CreateTask(&Task2);
-	//ToyOS_CreateTask(&Task3);
+	ToyOS_CreateTask(&Task3);
 	OS_Launch();
 	while(1);
 }
