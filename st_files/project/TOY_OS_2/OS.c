@@ -30,7 +30,6 @@ Some brief info regarding thread control block TCB
 /*******************Function Prototypes*****************/
 extern void startOS(void);
 void OS_Launch(void);
-void OS_Init(void);
 uint32_t ToyOS_CreateTask( void (*task)(void));
 
 	
@@ -39,6 +38,7 @@ uint32_t ToyOS_CreateTask( void (*task)(void));
 
 	int16_t numberoftasks = -1;  // holds the number of tasks -1 count 
 	uint16_t  STK_PT = 0 ;       // holds the amount of stack that was used
+	uint32_t stackpointer;        // this is used in the OS_Assemblypart.s file 
 
 /******************************************************
 			TCB -Thread Control block structure 
@@ -65,7 +65,7 @@ void SetInitialStack(int i){
   Thread[i].sp = &stack[i][STACKSIZE-16]; // thread stack pointer 
 	stack[i][STACKSIZE-1] = 0x01000000; // Thumb bit 
 	/* stack[i][STACKSIZE -2] contains PC address where we will assign the task address */
-  stack[i][STACKSIZE-3] = 0x14141414; // R14 
+  stack[i][STACKSIZE-3] = 0x14141414; // R14 --> LINK REGISTER
   stack[i][STACKSIZE-4] = 0x12121212; // R12 
   stack[i][STACKSIZE-5] = 0x03030303; // R3 
   stack[i][STACKSIZE-6] = 0x02020202; // R2 
@@ -136,10 +136,18 @@ uint32_t ToyOS_CreateTask( void (*task)(void))
 
 void OS_Launch(void)
 {
+
+
+
+	
+	/*
+		set the process stack pointer to the top of the statically allocated 
+	*/
+	
 	/*
 		This line here configures the systick and sets the priority
 	*/
-	systick_config(20000,0xF0);
+	systick_config(2000000,0xF0);
 	
 	/*
 		check if there is atleast one thread is created.
@@ -154,34 +162,17 @@ void OS_Launch(void)
 		{
 			RunPt = &Thread[0];	
 		}
+			
+	/*set PSP as the stack pointer in thread mode 
+		For this we have to set the value in the control register
+	*/
 	
+	__set_CONTROL(2);
 	/*
 		We are calling the function startOS() to start the operating system.
 		This startOS() is written in assembly.
 	*/
-	startOS();
-}
-/**
-		This OS_Init for now will only disable the interrupts
-*/
 
- void OS_Init()
-{
-		/* disable irq's */
-	__disable_irq();
-	/*set PSP as the stack pointer in thread mode 
-		For this we have to set the value in the control register
-	*/
-	__set_CONTROL(2);
-	
-	/*
-		set the process stack pointer to the top of the statically allocated 
-	*/
-	__set_PSP( (uint32_t)&stack[NUMTHREADS-1][STACKSIZE-1]);
-	/*
-		enable irq's
-	*/
-	__enable_irq();
+		startOS();	
 
-	
 }
