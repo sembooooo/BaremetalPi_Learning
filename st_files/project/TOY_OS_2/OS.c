@@ -35,7 +35,12 @@ uint32_t ToyOS_CreateTask( void (*task)(void));
 	
 /******************GLOBAL VARIABLES********************/
 
-
+/*
+	note: The below variables i have used them as kernel variables as they hold some information but 
+	      i dont think this is the exact way a kernel variable is designed in commercial OS .For our Toy OS 
+	      these are kernel variables
+		
+*/
 	int16_t numberoftasks = -1;  // holds the number of tasks -1 count 
 	uint16_t  STK_PT = 0 ;       // holds the amount of stack that was used
 	uint32_t stackpointer;        // this is used in the OS_Assemblypart.s file 
@@ -49,7 +54,7 @@ This only contains two feilds.
 typedef struct tcb{
   uint32_t *sp;      // pointer to stack, valid for threads not running
   struct tcb *next; // linked-list pointer
-	
+	// still more elements are to be added. 	
 } TCB;
 TCB Thread[NUMTHREADS];
 TCB *RunPt;
