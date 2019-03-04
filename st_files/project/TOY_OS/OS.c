@@ -98,10 +98,7 @@ void OS_Launch()
 	startOS();
 }
 
-void OS_Init()
-{
-		__asm( "CPSID I ");  /* Disable interrupts */
-}
+
 
 /**
 @ToyOS_CreateTask()
