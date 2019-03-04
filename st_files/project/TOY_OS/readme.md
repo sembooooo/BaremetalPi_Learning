@@ -1,3 +1,8 @@
+Under development.As of now some minor rearrangements have been done in the code(creating some extra header files) 
+Ihavent given any compilaton yet. But the older version worked. 
+So if one can go through the trouble of resolving errors,if any , then it will work.
+
+
 This contains the source files necessary for toy operating system which i learned from an edx course.
 
 The scheduler as of now is very simple and it is a round robin scheduler. 
