@@ -28,21 +28,6 @@ Some brief info regarding thread control block TCB
 
 
 
-/******************GLOBAL VARIABLES*******************	
-*/
-uint32_t KERNEL_numberoftasks = -1 ;
-
-
-/******************************************************
-			TCB -Thread Control block structure 
-This only contains two feilds. 
-	1. a pointer to its stack
-	2. a pointer to the other TCB.
-******************************************************/
-TCB Thread[NUMTHREADS];
-TCB *RunPt;
-uint32_t stack[NUMTHREADS][STACKSIZE];
-
 void SetInitialStack(int i){ 
   Thread[i].sp = &stack[i][STACKSIZE-16]; // thread stack pointer 
 	
@@ -94,42 +79,46 @@ void OS_Launch()
 
 /**
 @ToyOS_CreateTask()
-This will create and intialize a TCB for a task or thread. We use the word thread and a task interchangibly	
+This will create and intialize a TCB for a task or thread. 
+We use the word thread and a task interchangibly	
 @parameters - Takes in the starting address of the code for that task
 @return  0 -  success
         -1 -  failure
 */
- uint32_t ToyOS_CreateTask( void (*task)(void))
+ err_status_N ToyOS_CreateTask( void (*task)(void))
  {
+	err_status_N retval = E_OK;
+	uint32_t prev_taskindex;
+	TCB_INIT(Thread[KERNEL_numberoftasks]);
 		
-	/*
-		as one more task is going to be creaetd increment the kernel variable for number of tasks -KERNEL_numberoftasks
-	*/
-	KERNEL_numberoftasks++;
-	 
-	 
-	 /*
-	 1. There should be a variable in the kernel telling us how many tasks are present.
-	 By this we will get to know whether there is space to allow one more task to create or to return 0 
-	 */
+	
 	 if( KERNEL_numberoftasks <= NUMTHREADS)
 	 {
-		 /*
-		 if this is the first thread that we are creating then we the thread. next is to pointed to that thread only as there are no other threads.
-		 */
-		 if( KERNEL_numberoftasks = =0)
+		/**
+			if this is the first thread that we are creating then the thread.next 
+			is to pointed to that thread only as there are no other threads.
+		*/
+		 if( KERNEL_numberoftasks != 0)
 		 {
-			 Thread[0].next = Thread[0] ;
-			 return 0;
+			 prev_taskindex = KERNEL_numberoftasks-1
 		 }
-		 /*
-			As we have created a new thread or task we have link the last TCB to the current TCB and the current TCB to first TCB 
+		 else
+		 {
+			 prev_taskindex =0;
+		 }
+		/**
+			As we have created a new thread or task we have link the last
+			TCB to the current TCB and the current TCB to first TCB 
 			in order to maintain the linked list. 
-		 */
-		 Thread[KERNEL_numberoftasks-1].next = Thread[KERNEL_numberoftasks] ;
-		 
-		 
+		*/
+		 Thread[prev_taskindex].next = Thread[KERNEL_numberoftasks] ;
+		 }
+		 KERNEL_numberoftasks++;
 	 }
 	 else
-		 return -1
+	 {
+		retval = E_ERROR;
+	 }
+	 
+	 return retval;
  }
