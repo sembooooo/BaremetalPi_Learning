@@ -28,11 +28,11 @@ Some brief info regarding thread control block TCB
 
 
 
-void SetInitialStack(int i){ 
+void SetInitialStack(int i, void (*task)(void)){ 
   Thread[i].sp = &stack[i][STACKSIZE-16]; // thread stack pointer 
 	
   stack[i][STACKSIZE-1] = 0x01000000; // Thumb bit 
-	/* stack[i][STACKSIZE -2] contains PC address where we will assign the task address */
+  stack[i][STACKSIZE-2] = (uint32_t)(task); // PC
   stack[i][STACKSIZE-3] = 0x14141414; // R14 
   stack[i][STACKSIZE-4] = 0x12121212; // R12 
   stack[i][STACKSIZE-5] = 0x03030303; // R3 
@@ -87,13 +87,13 @@ We use the word thread and a task interchangibly
 */
  err_status_N ToyOS_CreateTask( void (*task)(void))
  {
-	err_status_N retval = E_OK;
+	err_status_N retval;
 	uint32_t prev_taskindex;
-	TCB_INIT(Thread[KERNEL_numberoftasks]);
+	TCB_INIT(Thread[KERNEL_numberoftasks]);  /* TODO: Define this macro in OS_Kernel.h */
 		
 	
-	 if( KERNEL_numberoftasks <= NUMTHREADS)
-	 {
+	if(KERNEL_numberoftasks <= NUMTHREADS)   /* TODO: try to replace this in assert function.
+	{
 		/**
 			if this is the first thread that we are creating then the thread.next 
 			is to pointed to that thread only as there are no other threads.
@@ -111,14 +111,15 @@ We use the word thread and a task interchangibly
 			TCB to the current TCB and the current TCB to first TCB 
 			in order to maintain the linked list. 
 		*/
-		 Thread[prev_taskindex].next = Thread[KERNEL_numberoftasks] ;
-		 }
-		 KERNEL_numberoftasks++;
-	 }
-	 else
-	 {
+		Thread[prev_taskindex].next = Thread[KERNEL_numberoftasks] ;
+		SetInitialStack(KERNEL_numberoftasks);
+		KERNEL_numberoftasks++;
+		retval = E_OK;
+	}
+	else
+	{
 		retval = E_ERROR;
-	 }
+	}
 	 
 	 return retval;
  }
