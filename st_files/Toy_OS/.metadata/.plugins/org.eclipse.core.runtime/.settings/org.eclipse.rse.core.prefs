@@ -1,3 +1,4 @@
 activeuserprofiles=Dell-PC;Team
 eclipse.preferences.version=1
 org.eclipse.rse.systemtype.local.systemType.defaultUserId=Hp
+useridperkey=Dell-PC.Local\=Hp;
